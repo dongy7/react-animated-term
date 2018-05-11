@@ -3,6 +3,7 @@ function* terminalContent(lines) {
   let pos = 0
   let frameIndex = 0
   const currLines = []
+  let frameTimer = false
   if (lines.length === 0) {
     return []
   }
@@ -22,14 +23,23 @@ function* terminalContent(lines) {
           lineIndex++
         } else if (frameIndex < frames.length) {
           if (frameIndex === 0) {
-            currLines.push({
-              text: frames[0],
-              cmd: false,
-              current: true,
-            })
+            if (!frameTimer) {
+              currLines.push({
+                text: frames[0].text,
+                cmd: false,
+                current: true,
+              })
+            }
           }
-          currLines[lineIndex].text = frames[frameIndex]
-          frameIndex++
+          currLines[lineIndex].text = frames[frameIndex].text
+          if (!frameTimer) {
+            frameTimer = setTimeout(() => {
+              frameIndex++
+              clearTimeout(frameTimer)
+              frameTimer = false
+            }, frames[frameIndex].delay)
+          }
+
           yield currLines
         } else {
           pos = 0

@@ -16,11 +16,75 @@
 	<script type="text/babel">
     const termLines = [
       {
-        'text': 'ls -l',
+        'text': 'yarn',
         'cmd': true
       },
       {
-        'text': 'index.js    node_modules    readme.md    package.json',
+        'text': 'yarn install v1.6.0',
+        'cmd': false
+      },
+      {
+        'text': '[1/4] 🔍  Resolving packages...',
+        'cmd': false
+      },
+      {
+        'text': '[2/4] 🚚  Fetching packages...',
+        'cmd': false
+      },
+      {
+        'text': '',
+        'cmd': false,
+        'frames': [
+          {
+            text: '[------------------------------------------------] 0/1000',
+            delay: 200
+          },
+          {
+            text: '[#######-----------------------------------------] 100/1000',
+            delay: 1000
+          },
+          {
+            text: '[###########################---------------------] 500/1000',
+            delay: 200
+          },
+          {
+            text: '[################################################] 1000/1000',
+            delay: 400
+          },
+          {
+            text: '[3/4] 🔗  Linking dependencies...',
+            delay: 200
+          }
+        ]
+      },
+      {
+        'text': '',
+        'cmd': false,
+        'frames': [
+          {
+            text: '[------------------------------------------------] 0/1000',
+            delay: 200
+          },
+          {
+            text: '[#######-----------------------------------------] 100/1000',
+            delay: 300
+          },
+          {
+            text: '[###########################---------------------] 500/1000',
+            delay: 200
+          },
+          {
+            text: '[################################################] 1000/1000',
+            delay: 400
+          },
+          {
+            text: '[4/4] 📃  Building fresh packages...',
+            delay: 200
+          }
+        ]
+      },
+      {
+        'text': '✨  Done in 1.51s.',
         'cmd': false
       },
       {
@@ -33,10 +97,12 @@
         return (
           <div>
             <h1>React Animated Terminal</h1>
-            <Renderer lines={termLines} />
+            <Renderer
+              lines={termLines}
+              interval={100}
+            />
           </div>
         )
-
 			}
 		};
 		ReactDOM.render(

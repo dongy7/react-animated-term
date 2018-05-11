@@ -20,7 +20,7 @@ class Renderer extends React.Component {
       if (done) {
         clearInterval(timer)
       }
-    }, 150)
+    }, this.props.interval)
   }
 
   render() {
