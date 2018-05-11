@@ -1,0 +1,47 @@
+<!doctype html>
+<head>
+	<title>react-animated-term umd example</title>
+</head>
+<body>
+	<div class="container">
+		<h1 style="margin-top: 40px;">React Animated Terminal</h1>
+		<h2>Standalone (UMD) Bulid</h2>
+		<div>For usage without browserify / rollup / webpack</div>
+		<div id="term" style="margin: 20px 0;"></div>
+  </div>
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+	<script src="../dist/react-animated-term.js"></script>
+	<script type="text/babel">
+    const termLines = [
+      {
+        'text': 'ls -l',
+        'cmd': true
+      },
+      {
+        'text': 'index.js    node_modules    readme.md    package.json',
+        'cmd': false
+      },
+      {
+        'text': '',
+        'cmd': true
+      }
+    ];
+		class App extends React.Component {
+			render () {
+        return (
+          <div>
+            <h1>React Animated Terminal</h1>
+            <Renderer lines={termLines} />
+          </div>
+        )
+
+			}
+		};
+		ReactDOM.render(
+			<App />,
+			document.getElementById('term')
+		);
+	</script>
+</body>

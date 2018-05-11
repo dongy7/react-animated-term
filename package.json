@@ -4,11 +4,29 @@
   "main": "index.js",
   "author": "Dong Yeop Lee",
   "license": "MIT",
+  "scripts": {
+    "build": "nps build"
+  },
   "peerDependencies": {
     "react": "^16.3.2",
     "react-dom": "^16.3.2"
   },
-  "dependencies": {
-    "react-lazyload": "^2.3.0"
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "nps": "^5.9.0",
+    "nps-utils": "^1.5.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "regenerator-runtime": "^0.11.1",
+    "rollup": "^0.58.2",
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-uglify": "^3.0.0",
+    "uglify-es": "^3.3.9"
   }
 }
