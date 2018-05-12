@@ -2,8 +2,10 @@ function* terminalContent(lines) {
   let lineIndex = 0
   let pos = 0
   let frameIndex = 0
-  const currLines = []
   let frameTimer = false
+  let frameRepeatCounter = 0
+  const currLines = []
+  
   if (lines.length === 0) {
     return []
   }
@@ -12,6 +14,7 @@ function* terminalContent(lines) {
     if (lineIndex < lines.length) {
       if (!lines[lineIndex].cmd) {
         const frames = lines[lineIndex].frames
+        const { repeat, repeatCount } = lines[lineIndex]
         if (!frames) {
           currLines.push({
             text: lines[lineIndex].text,
@@ -23,7 +26,7 @@ function* terminalContent(lines) {
           lineIndex++
         } else if (frameIndex < frames.length) {
           if (frameIndex === 0) {
-            if (!frameTimer) {
+            if (!frameTimer && (frameRepeatCounter === 0)) {
               currLines.push({
                 text: frames[0].text,
                 cmd: false,
@@ -42,10 +45,19 @@ function* terminalContent(lines) {
 
           yield currLines
         } else {
-          pos = 0
-          frameIndex = 0
-          currLines[lineIndex].current = false
-          lineIndex++
+          const { repeat, repeatCount } = lines[lineIndex]
+          if (repeat && (frameRepeatCounter < repeatCount)) {
+            frameRepeatCounter++
+            frameIndex = 0
+          } else {
+            pos = 0
+            frameIndex = 0
+            currLines[lineIndex].current = false
+            if (lines[lineIndex].finalFrame) {
+              currLines[lineIndex].text = lines[lineIndex].finalFrame
+            }
+            lineIndex++
+          }
         }
       } else if (pos == 0) {
         currLines.push({
