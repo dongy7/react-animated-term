@@ -5,7 +5,8 @@
   "author": "Dong Yeop Lee",
   "license": "MIT",
   "scripts": {
-    "build": "nps build"
+    "build": "nps build",
+    "test": "jest"
   },
   "peerDependencies": {
     "react": "^16.3.2",
@@ -15,9 +16,11 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-jest": "^22.4.3",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "jest": "^22.4.3",
     "nps": "^5.9.0",
     "nps-utils": "^1.5.0",
     "react": "^16.3.2",
