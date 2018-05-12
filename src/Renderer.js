@@ -12,15 +12,19 @@ class Renderer extends React.Component {
   }
 
   componentDidMount() {
-    const timer = setInterval(() => {
+    this.timer = setInterval(() => {
       const { value, done } = this.content.next()
       this.setState({
         lines: value
       })
       if (done) {
-        clearInterval(timer)
+        clearInterval(this.timer)
       }
     }, this.props.interval)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer)
   }
 
   render() {
