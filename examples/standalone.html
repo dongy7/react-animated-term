@@ -1,19 +1,16 @@
 <!doctype html>
 <head>
-	<title>react-animated-term umd example</title>
+  <title>react-animated-term umd example</title>
 </head>
 <body>
-	<div class="container">
-		<h1 style="margin-top: 40px;">React Animated Terminal</h1>
-		<h2>Standalone (UMD) Bulid</h2>
-		<div>For usage without browserify / rollup / webpack</div>
-		<div id="term" style="margin: 20px 0;"></div>
+  <div class="container">
+    <div id="term" style="margin: 20px 0;"></div>
   </div>
-	<script src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>
   <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-	<script src="../dist/react-animated-term.js"></script>
-	<script type="text/babel">
+  <script src="../dist/react-animated-term.js"></script>
+  <script type="text/babel">
     const termLines = [
       {
         'text': 'yarn',
@@ -50,12 +47,9 @@
           {
             text: '[################################################] 1000/1000',
             delay: 400
-          },
-          {
-            text: '[3/4] 🔗  Linking dependencies...',
-            delay: 200
           }
-        ]
+        ],
+        'finalFrame': '[3/4] 🔗  Linking dependencies...'
       },
       {
         'text': '',
@@ -76,12 +70,9 @@
           {
             text: '[################################################] 1000/1000',
             delay: 400
-          },
-          {
-            text: '[4/4] 📃  Building fresh packages...',
-            delay: 200
           }
-        ]
+        ],
+        'finalFrame': '[4/4] 📃  Building fresh packages...'
       },
       {
         'text': '✨  Done in 1.51s.',
@@ -92,22 +83,68 @@
         'cmd': true
       }
     ];
-		class App extends React.Component {
-			render () {
+		const spinnerFrames = [
+			"⠋",
+			"⠙",
+			"⠹",
+			"⠸",
+			"⠼",
+			"⠴",
+			"⠦",
+			"⠧",
+			"⠇",
+			"⠏"
+		];
+    const spinnerLines = [
+      {
+        'text': 'node example.js',
+        'cmd': true
+      },
+      {
+        'text': '',
+        'cmd': false,
+        'repeat': true,
+        'repeatCount': 3,
+        'frames': spinnerFrames.map(function(spinner) {
+          return {
+            text: (spinner + ' Loading app'),
+            delay: 80
+          }
+        }),
+        'finalFrame': '✔ Loaded app'
+      },
+      {
+        text: '',
+        cmd: true
+      }
+    ];
+    class App extends React.Component {
+      render () {
         return (
-          <div>
+          <div style={{ fontFamily: 'sans-serif' }}>
             <h1>React Animated Terminal</h1>
-            <Renderer
-              lines={termLines}
-              interval={100}
-            />
+            <h2>Basic Example</h2>
+            <div style={{ width: '400px', margin: 'auto' }}>
+              <Renderer
+                lines={termLines}
+                interval={100}
+              />
+            </div>
+
+            <h2>Repeated Animation Example</h2>
+            <div style={{ width: '400px', margin: 'auto' }}>
+              <Renderer
+                lines={spinnerLines}
+                interval={80}
+              />
+            </div>
           </div>
         )
-			}
-		};
-		ReactDOM.render(
-			<App />,
-			document.getElementById('term')
-		);
-	</script>
+      }
+    };
+    ReactDOM.render(
+      <App />,
+      document.getElementById('term')
+    );
+  </script>
 </body>
