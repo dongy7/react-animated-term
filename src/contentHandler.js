@@ -1,40 +1,53 @@
 function* terminalContent(lines) {
-  let lineIndex = 0
-  let pos = 0
-  let frameIndex = 0
-  let frameTimer = false
-  let frameRepeatCounter = 0
-  const currLines = []
-  
   if (lines.length === 0) {
     return []
   }
 
+  let lineIndex = 0
+  let linePosition = 0
+  let frameIndex = 0
+  let frameTimer = false
+  let frameRepeatCounter = 0
+
+  // The current contents of the terminal
+  const buffer = []
+
   while (true) {
     if (lineIndex < lines.length) {
+      // next line is an output line
       if (!lines[lineIndex].cmd) {
         const frames = lines[lineIndex].frames
         const { repeat, repeatCount } = lines[lineIndex]
+
+        // a static line, add it to buffer and move to next line
         if (!frames) {
-          currLines.push({
+          buffer.push({
             text: lines[lineIndex].text,
             cmd: false,
             current: false
           })
-          yield currLines
-          pos = 0
+
+          yield buffer
+          linePosition = 0
           lineIndex++
         } else if (frameIndex < frames.length) {
+          // this is the first frame
           if (frameIndex === 0) {
+            // push the line's frame onto buffer only if this is the first time 
+            // rendering this line
             if (!frameTimer && (frameRepeatCounter === 0)) {
-              currLines.push({
+              buffer.push({
                 text: frames[0].text,
                 cmd: false,
                 current: true,
               })
             }
           }
-          currLines[lineIndex].text = frames[frameIndex].text
+
+          // show the current frame's text
+          buffer[lineIndex].text = frames[frameIndex].text
+
+          // start a timer to render the next frame only after the delay
           if (!frameTimer) {
             frameTimer = setTimeout(() => {
               frameIndex++
@@ -43,40 +56,50 @@ function* terminalContent(lines) {
             }, frames[frameIndex].delay)
           }
 
-          yield currLines
+          yield buffer
         } else {
           const { repeat, repeatCount } = lines[lineIndex]
+
+          // if current line should be repeated, reset frame counter and index
           if (repeat && (frameRepeatCounter < repeatCount)) {
             frameRepeatCounter++
             frameIndex = 0
           } else {
-            pos = 0
-            frameIndex = 0
-            currLines[lineIndex].current = false
+            // if final frame specified, use it as the text
             if (lines[lineIndex].finalFrame) {
-              currLines[lineIndex].text = lines[lineIndex].finalFrame
+              buffer[lineIndex].text = lines[lineIndex].finalFrame
             }
+
+            // move to next line
+            buffer[lineIndex].current = false
+            linePosition = 0
+            frameIndex = 0
             lineIndex++
           }
         }
-      } else if (pos == 0) {
-        currLines.push({
+      } else if (linePosition == 0) {
+        buffer.push({
           text: '',
           cmd: lines[lineIndex].cmd,
           current: true
         })
-        pos++
-      } else if (pos > lines[lineIndex].text.length) {
-        currLines[lineIndex].current = lineIndex === lines.length - 1
-        pos = 0
+        linePosition++
+      } else if (linePosition > lines[lineIndex].text.length) {
+        // move to next line
+        // if the line is the last line, current set to true to render cursor
+        buffer[lineIndex].current = lineIndex === lines.length - 1
+        linePosition = 0
         lineIndex++
       } else {
-        currLines[lineIndex].text = lines[lineIndex].text.substring(0, pos)
-        pos++
+        // set text for the line as all the text before or at the position
+        buffer[lineIndex].text = lines[lineIndex].text.substring(0, linePosition)
+        linePosition++
       }
-      yield currLines
+      yield buffer
     } else {
-      return currLines
+      // no more lines to process
+      // signal finsihed to allow renderer to stop querying for new terminal content
+      return buffer
     }
   }
 }
