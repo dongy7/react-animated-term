@@ -21,7 +21,8 @@
     "build": "nps build",
     "test": "jest",
     "prettier": "nps prettier",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start": "webpack-dev-server --progress"
   },
   "peerDependencies": {
     "react": "^16.3.2",
@@ -35,6 +36,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^22.4.3",
+    "babel-loader": "^7.1.4",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "babel-preset-env": "^1.7.0",
@@ -43,6 +45,8 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-jest": "^21.15.1",
     "eslint-plugin-react": "^7.8.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
     "jest": "^22.4.3",
     "nps": "^5.9.0",
     "nps-utils": "^1.5.0",
@@ -53,6 +57,9 @@
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-uglify": "^3.0.0",
-    "uglify-es": "^3.3.9"
+    "uglify-es": "^3.3.9",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "^3.1.4"
   }
 }
