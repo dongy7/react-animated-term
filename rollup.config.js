@@ -11,6 +11,7 @@ const globals = {
 };
 const external = Object.keys(globals);
 const babelOptions = {
+  plugins: ['external-helpers']
 }
 export default [
   {
