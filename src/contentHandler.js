@@ -17,11 +17,11 @@ function* terminalContent(lines) {
       // next line is an output line
       if (!lines[lineIndex].cmd) {
         const frames = lines[lineIndex].frames
-        const { repeat, repeatCount } = lines[lineIndex]
 
         // a static line, add it to buffer and move to next line
         if (!frames) {
           buffer.push({
+            id: lineIndex,
             text: lines[lineIndex].text,
             cmd: false,
             current: false
@@ -33,13 +33,14 @@ function* terminalContent(lines) {
         } else if (frameIndex < frames.length) {
           // this is the first frame
           if (frameIndex === 0) {
-            // push the line's frame onto buffer only if this is the first time 
+            // push the line's frame onto buffer only if this is the first time
             // rendering this line
-            if (!frameTimer && (frameRepeatCounter === 0)) {
+            if (!frameTimer && frameRepeatCounter === 0) {
               buffer.push({
+                id: lineIndex,
                 text: frames[0].text,
                 cmd: false,
-                current: true,
+                current: true
               })
             }
           }
@@ -64,7 +65,7 @@ function* terminalContent(lines) {
           const { repeat, repeatCount } = lines[lineIndex]
 
           // if current line should be repeated, reset frame counter and index
-          if (repeat && (frameRepeatCounter < repeatCount)) {
+          if (repeat && frameRepeatCounter < repeatCount) {
             frameRepeatCounter++
             frameIndex = 0
           } else {
@@ -82,6 +83,7 @@ function* terminalContent(lines) {
         }
       } else if (linePosition === 0) {
         buffer.push({
+          id: lineIndex,
           text: '',
           cmd: lines[lineIndex].cmd,
           current: true
@@ -95,7 +97,10 @@ function* terminalContent(lines) {
         lineIndex++
       } else {
         // set text for the line as all the text before or at the position
-        buffer[lineIndex].text = lines[lineIndex].text.substring(0, linePosition)
+        buffer[lineIndex].text = lines[lineIndex].text.substring(
+          0,
+          linePosition
+        )
         linePosition++
       }
       yield buffer

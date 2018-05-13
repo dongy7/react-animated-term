@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Terminal from './Terminal'
 import termContent from './contentHandler'
 
@@ -30,6 +31,16 @@ class Renderer extends React.Component {
   render() {
     return <Terminal>{this.state.lines}</Terminal>
   }
+}
+
+Renderer.defaultProps = {
+  interval: 100,
+  lines: []
+}
+
+Renderer.propTypes = {
+  interval: PropTypes.number,
+  lines: PropTypes.array
 }
 
 export default Renderer

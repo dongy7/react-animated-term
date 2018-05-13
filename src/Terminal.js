@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   windowStyle,
   windowButtonStyle,
@@ -20,7 +21,7 @@ const prompt = <span style={promptStyle}>$ </span>
 const renderLines = lines => {
   return lines.map(line => {
     return (
-      <React.Fragment>
+      <React.Fragment key={line.id}>
         {line.cmd ? prompt : ''}
         {line.text}
         {line.current ? cursor : ''}
@@ -30,7 +31,7 @@ const renderLines = lines => {
   })
 }
 
-export default ({ children }) => {
+const Terminal = ({ children }) => {
   return (
     <div style={windowStyle}>
       <div style={terminalStyle}>
@@ -52,5 +53,11 @@ export default ({ children }) => {
         </div>
       </div>
     </div>
-  )
+  ) 
 }
+
+Terminal.propTypes = {
+  children: PropTypes.array
+}
+
+export default Terminal
