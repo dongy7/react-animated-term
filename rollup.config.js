@@ -7,7 +7,8 @@ const name = 'Renderer'
 const path = 'dist/react-animated-term'
 const globals = {
   'react-dom': 'ReactDOM',
-  react: 'React'
+  react: 'React',
+  'prop-types': 'PropTypes'
 }
 const external = Object.keys(globals)
 const babelOptions = {
