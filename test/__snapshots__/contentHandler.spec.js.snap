@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`correctly handles framed output 1`] = `
+Array [
+  Object {
+    "cmd": false,
+    "current": true,
+    "text": "[------------------------------------------------] 0/100",
+  },
+]
+`;
+
+exports[`correctly handles framed output 2`] = `
+Array [
+  Object {
+    "cmd": false,
+    "current": true,
+    "text": "[################################################] 100/100",
+  },
+]
+`;
+
+exports[`correctly handles framed output 3`] = `
+Array [
+  Object {
+    "cmd": false,
+    "current": false,
+    "text": "[################################################] 100/100",
+  },
+]
+`;
+
+exports[`correctly handles framed output 4`] = `
+Array [
+  Object {
+    "cmd": false,
+    "current": false,
+    "text": "[################################################] 100/100",
+  },
+]
+`;
+
+exports[`correctly handles static cmd line 1`] = `
+Array [
+  Object {
+    "cmd": true,
+    "current": true,
+    "text": "",
+  },
+]
+`;
+
+exports[`correctly handles static cmd line 2`] = `
+Array [
+  Object {
+    "cmd": true,
+    "current": true,
+    "text": "l",
+  },
+]
+`;
+
+exports[`correctly handles static cmd line 3`] = `
+Array [
+  Object {
+    "cmd": true,
+    "current": true,
+    "text": "ls",
+  },
+]
+`;
+
+exports[`correctly handles static cmd line 4`] = `
+Array [
+  Object {
+    "cmd": true,
+    "current": true,
+    "text": "ls",
+  },
+]
+`;
+
+exports[`correctly handles static cmd line 5`] = `
+Array [
+  Object {
+    "cmd": true,
+    "current": true,
+    "text": "ls",
+  },
+]
+`;
+
+exports[`correctly handles static output line 1`] = `
+Array [
+  Object {
+    "cmd": false,
+    "current": false,
+    "text": "foo",
+  },
+]
+`;
+
+exports[`correctly handles static output line 2`] = `
+Array [
+  Object {
+    "cmd": false,
+    "current": false,
+    "text": "foo",
+  },
+]
+`;
+
+exports[`correctly handles static output line 3`] = `
+Array [
+  Object {
+    "cmd": false,
+    "current": false,
+    "text": "foo",
+  },
+]
+`;
