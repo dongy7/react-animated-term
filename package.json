@@ -16,6 +16,7 @@
     "animation",
     "animated"
   ],
+  "main": "lib/index.js",
   "scripts": {
     "build": "nps build",
     "test": "jest",
