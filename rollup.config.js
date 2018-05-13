@@ -11,9 +11,17 @@ const globals = {
   'prop-types': 'PropTypes'
 }
 const external = Object.keys(globals)
-const babelOptions = {
-  plugins: ['external-helpers']
+const babelOptions = (prod) =>  {
+  let options = {
+    plugins: ['external-helpers']
+  }
+
+  if (prod) {
+    options.plugins.push('transform-react-remove-prop-types')
+  }
+  return options
 }
+
 export default [
   {
     input: 'src/index.js',
@@ -22,7 +30,7 @@ export default [
       format: 'es'
     },
     external: external,
-    plugins: [babel(babelOptions), resolve()]
+    plugins: [babel(babelOptions(false)), resolve()]
   },
   {
     input: 'src/index.js',
@@ -33,7 +41,7 @@ export default [
       globals: globals
     },
     external: external,
-    plugins: [babel(babelOptions), resolve()]
+    plugins: [babel(babelOptions(false)), resolve()]
   },
   {
     input: 'src/index.js',
@@ -44,6 +52,6 @@ export default [
       globals: globals
     },
     external: external,
-    plugins: [babel(babelOptions), resolve(), uglify({}, minify)]
+    plugins: [babel(babelOptions(true)), resolve(), uglify({}, minify)]
   }
 ]
