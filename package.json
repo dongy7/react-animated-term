@@ -1,9 +1,21 @@
 {
   "name": "react-animated-term",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "Dong Yeop Lee",
+  "description": "React component for rendering animated terminals",
   "license": "MIT",
+  "repository": "https://github.com/dongy7/react-animated-term",
+  "author": {
+    "name": "Dong Yeop Lee",
+    "email": "dong@dongyeop.com",
+    "url": "https://dongyeop.com"
+  },
+  "keywords": [
+    "react",
+    "terminal",
+    "console",
+    "animation",
+    "animated"
+  ],
   "scripts": {
     "build": "nps build",
     "test": "jest",
