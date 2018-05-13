@@ -56,10 +56,13 @@ var possibleConstructorReturn = function (self, call) {
 };
 
 /**
- * Copyright (c) 2014-present, Facebook, Inc.
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * This source code is licensed under the BSD-style license found in the
+ * https://raw.github.com/facebook/regenerator/master/LICENSE file. An
+ * additional grant of patent rights can be found in the PATENTS file in
+ * the same directory.
  */
 
 !function (global) {
@@ -233,6 +236,10 @@ var possibleConstructorReturn = function (self, call) {
           resolve(result);
         }, reject);
       }
+    }
+
+    if (_typeof(global.process) === "object" && global.process.domain) {
+      invoke = global.process.domain.bind(invoke);
     }
 
     var previousPromise;
@@ -745,12 +752,10 @@ var possibleConstructorReturn = function (self, call) {
     }
   };
 }(
-// In sloppy mode, unbound `this` refers to the global object, fallback to
-// Function constructor if we're in global strict mode. That is sadly a form
-// of indirect eval which violates Content Security Policy.
-function () {
-  return this;
-}() || Function("return this")());
+// Among the various tricks for obtaining a reference to the global
+// object, this seems to be the most reliable technique that does not
+// use indirect eval (which violates Content Security Policy).
+(typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" ? global : (typeof window === "undefined" ? "undefined" : _typeof(window)) === "object" ? window : (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" ? self : undefined);
 
 var windowStyle = {
   width: '100%',
@@ -898,9 +903,7 @@ Terminal.propTypes = {
   children: PropTypes.array
 };
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(terminalContent);
-
-function terminalContent(lines) {
+var terminalContent = /*#__PURE__*/regeneratorRuntime.mark(function terminalContent(lines) {
   var lineIndex, linePosition, frameIndex, frameTimer, frameRepeatCounter, buffer, frames, _lines$lineIndex, repeat, repeatCount;
 
   return regeneratorRuntime.wrap(function terminalContent$(_context) {
@@ -1084,8 +1087,8 @@ function terminalContent(lines) {
           return _context.stop();
       }
     }
-  }, _marked, this);
-}
+  }, terminalContent, this);
+});
 
 var Renderer = function (_React$Component) {
   inherits(Renderer, _React$Component);

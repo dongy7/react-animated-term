@@ -1,4 +1,4 @@
-function* terminalContent(lines) {
+const terminalContent = function* (lines) {
   if (lines.length === 0) {
     return []
   }
