@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime'
+
 function* terminalContent(lines) {
   if (lines.length === 0) {
     return []
