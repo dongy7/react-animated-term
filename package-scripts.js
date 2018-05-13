@@ -1,8 +1,7 @@
-const npsUtils = require('nps-utils');
-const path = require('path');
-const series = npsUtils.series;
-const rimraf = npsUtils.rimraf;
-const concurrent = npsUtils.concurrent;
+const npsUtils = require('nps-utils')
+const series = npsUtils.series
+const rimraf = npsUtils.rimraf
+const concurrent = npsUtils.concurrent
 
 module.exports = {
   scripts: {
@@ -14,7 +13,11 @@ module.exports = {
         concurrent.nps('build.rollup', 'build.babel')
       ),
       rollup: 'rollup --config',
-      babel: 'babel src -d lib',
+      babel: 'babel src -d lib'
     },
-  },
-};
+    prettier: {
+      description: 'run prettier on src files',
+      default: 'prettier --single-quote --no-semi --write "src/**/*.js"'
+    }
+  }
+}
