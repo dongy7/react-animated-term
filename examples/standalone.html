@@ -39,7 +39,7 @@
           },
           {
             text: '[#######-----------------------------------------] 100/1000',
-            delay: 1000
+            delay: 2000
           },
           {
             text: '[###########################---------------------] 500/1000',
@@ -66,7 +66,7 @@
           },
           {
             text: '[###########################---------------------] 500/1000',
-            delay: 200
+            delay: 1200
           },
           {
             text: '[################################################] 1000/1000',
@@ -76,7 +76,7 @@
         'finalFrame': '[4/4] 📃  Building fresh packages...'
       },
       {
-        'text': '✨  Done in 1.51s.',
+        'text': '✨  Done in 4.91s.',
         'cmd': false
       },
       {
@@ -105,7 +105,7 @@
         'text': '',
         'cmd': false,
         'repeat': true,
-        'repeatCount': 3,
+        'repeatCount': 2,
         'frames': spinnerFrames.map(function(spinner) {
           return {
             text: (spinner + ' Loading app'),
@@ -125,7 +125,7 @@
           <div style={{ fontFamily: 'sans-serif' }}>
             <h1>React Animated Terminal</h1>
             <h2>Basic Example</h2>
-            <div style={{ width: '400px' }}>
+            <div style={{ width: '480px' }}>
               <Renderer
                 lines={termLines}
                 interval={100}
@@ -133,7 +133,7 @@
             </div>
 
             <h2>Repeated Animation Example</h2>
-            <div style={{ width: '400px' }}>
+            <div style={{ width: '380px' }}>
               <Renderer
                 lines={spinnerLines}
                 interval={80}

@@ -49,17 +49,19 @@ function* terminalContent(lines) {
           buffer[lineIndex].text = frames[frameIndex].text
 
           // start a timer to render the next frame only after the delay
-          if (!frameTimer && !isNaN(frames[frameIndex].delay)) {
-            frameTimer = setTimeout(() => {
+          if (!frameTimer) {
+            if (!isNaN(frames[frameIndex].delay)) {
+              frameTimer = setTimeout(() => {
+                frameIndex++
+                clearTimeout(frameTimer)
+                frameTimer = false
+              }, frames[frameIndex].delay)
+              // yield here to avoid condition where frameIndex goes out of bounds
+              // from the timeout
+              yield buffer
+            } else {
               frameIndex++
-              clearTimeout(frameTimer)
-              frameTimer = false
-            }, frames[frameIndex].delay)
-            // yield here to avoid condition where frameIndex goes out of bounds
-            // from the timeout
-            yield buffer
-          } else {
-            frameIndex++
+            }
           }
         } else {
           const { repeat, repeatCount } = lines[lineIndex]
