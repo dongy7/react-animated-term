@@ -3,10 +3,11 @@
   <title>react-animated-term umd example</title>
 </head>
 <body>
-  <div class="container">
+  <div class="container" style="margin-left: auto; margin-right: auto;">
     <div id="term" style="margin: 20px 0;"></div>
   </div>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>
+  <script crossorigin src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
   <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
   <script src="../dist/react-animated-term.js"></script>
@@ -124,7 +125,7 @@
           <div style={{ fontFamily: 'sans-serif' }}>
             <h1>React Animated Terminal</h1>
             <h2>Basic Example</h2>
-            <div style={{ width: '400px', margin: 'auto' }}>
+            <div style={{ width: '400px' }}>
               <Renderer
                 lines={termLines}
                 interval={100}
@@ -132,7 +133,7 @@
             </div>
 
             <h2>Repeated Animation Example</h2>
-            <div style={{ width: '400px', margin: 'auto' }}>
+            <div style={{ width: '400px' }}>
               <Renderer
                 lines={spinnerLines}
                 interval={80}
