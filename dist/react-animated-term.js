@@ -1,10 +1,11 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('react')) :
-  typeof define === 'function' && define.amd ? define(['react'], factory) :
-  (global.Renderer = factory(global.React));
-}(this, (function (React) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('react'), require('prop-types')) :
+  typeof define === 'function' && define.amd ? define(['react', 'prop-types'], factory) :
+  (global.Renderer = factory(global.React,global.PropTypes));
+}(this, (function (React,PropTypes) { 'use strict';
 
   React = React && React.hasOwnProperty('default') ? React['default'] : React;
+  PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
 
   var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
     return typeof obj;
@@ -765,7 +766,8 @@
     borderColor: 'rgb(51, 51, 51)',
     borderRadius: '5px',
     boxShadow: 'rgba(0, 0, 0, 0.1) 1px 2px 5px 0px',
-    background: 'rgb(0, 0, 0)'
+    background: 'rgb(0, 0, 0)',
+    position: 'relative'
   };
 
   var terminalStyle = {
@@ -775,7 +777,7 @@
 
   var headerStyle = {
     width: '100%',
-    height: '34px',
+    top: '18px',
     position: 'absolute'
   };
 
@@ -850,7 +852,7 @@
     return lines.map(function (line) {
       return React.createElement(
         React.Fragment,
-        null,
+        { key: line.id },
         line.cmd ? prompt : '',
         line.text,
         line.current ? cursor : '',
@@ -859,7 +861,7 @@
     });
   };
 
-  var Terminal = (function (_ref) {
+  var Terminal = function Terminal(_ref) {
     var children = _ref.children;
 
     return React.createElement(
@@ -896,72 +898,189 @@
         )
       )
     );
-  });
+  };
+
+  Terminal.propTypes = {
+    children: PropTypes.array
+  };
 
   var _marked = /*#__PURE__*/regeneratorRuntime.mark(terminalContent);
 
   function terminalContent(lines) {
-    var lineIndex, pos, currLines;
+    var lineIndex, linePosition, frameIndex, frameTimer, frameRepeatCounter, buffer, frames, _lines$lineIndex, repeat, repeatCount;
+
     return regeneratorRuntime.wrap(function terminalContent$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            lineIndex = 0;
-            pos = 0;
-            currLines = [];
-
             if (!(lines.length === 0)) {
-              _context.next = 5;
+              _context.next = 2;
               break;
             }
 
             return _context.abrupt('return', []);
 
-          case 5:
+          case 2:
+            lineIndex = 0;
+            linePosition = 0;
+            frameIndex = 0;
+            frameTimer = false;
+            frameRepeatCounter = 0;
+
+            // The current contents of the terminal
+
+            buffer = [];
+
+          case 8:
 
             if (!(lineIndex < lines.length)) {
-              _context.next = 12;
+              _context.next = 41;
               break;
             }
 
-            if (!lines[lineIndex].cmd) {
-              currLines.push({
-                text: lines[lineIndex].text,
-                cmd: false,
-                current: false
-              });
-              pos = 0;
+            if (lines[lineIndex].cmd) {
+              _context.next = 36;
+              break;
+            }
+
+            frames = lines[lineIndex].frames;
+
+            // a static line, add it to buffer and move to next line
+
+            if (frames) {
+              _context.next = 20;
+              break;
+            }
+
+            buffer.push({
+              id: lineIndex,
+              text: lines[lineIndex].text,
+              cmd: false,
+              current: false
+            });
+
+            _context.next = 16;
+            return buffer;
+
+          case 16:
+            linePosition = 0;
+            lineIndex++;
+            _context.next = 34;
+            break;
+
+          case 20:
+            if (!(frameIndex < frames.length)) {
+              _context.next = 32;
+              break;
+            }
+
+            // this is the first frame
+            if (frameIndex === 0) {
+              // push the line's frame onto buffer only if this is the first time
+              // rendering this line
+              if (!frameTimer && frameRepeatCounter === 0) {
+                buffer.push({
+                  id: lineIndex,
+                  text: frames[0].text,
+                  cmd: false,
+                  current: true
+                });
+              }
+            }
+
+            // show the current frame's text
+            buffer[lineIndex].text = frames[frameIndex].text;
+
+            // start a timer to render the next frame only after the delay
+
+            if (!(!frameTimer && !isNaN(frames[frameIndex].delay))) {
+              _context.next = 29;
+              break;
+            }
+
+            frameTimer = setTimeout(function () {
+              frameIndex++;
+              clearTimeout(frameTimer);
+              frameTimer = false;
+            }, frames[frameIndex].delay);
+            // yield here to avoid condition where frameIndex goes out of bounds
+            // from the timeout
+            _context.next = 27;
+            return buffer;
+
+          case 27:
+            _context.next = 30;
+            break;
+
+          case 29:
+            frameIndex++;
+
+          case 30:
+            _context.next = 34;
+            break;
+
+          case 32:
+            _lines$lineIndex = lines[lineIndex], repeat = _lines$lineIndex.repeat, repeatCount = _lines$lineIndex.repeatCount;
+
+            // if current line should be repeated, reset frame counter and index
+
+            if (repeat && frameRepeatCounter < repeatCount) {
+              frameRepeatCounter++;
+              frameIndex = 0;
+            } else {
+              // if final frame specified, use it as the text
+              if (lines[lineIndex].finalFrame) {
+                buffer[lineIndex].text = lines[lineIndex].finalFrame;
+              }
+
+              // move to next line
+              buffer[lineIndex].current = false;
+              linePosition = 0;
+              frameIndex = 0;
               lineIndex++;
-            } else if (pos == 0) {
-              currLines.push({
+            }
+
+          case 34:
+            _context.next = 37;
+            break;
+
+          case 36:
+            if (linePosition === 0) {
+              buffer.push({
+                id: lineIndex,
                 text: '',
                 cmd: lines[lineIndex].cmd,
                 current: true
               });
-              pos++;
-            } else if (pos > lines[lineIndex].text.length) {
-              currLines[lineIndex].current = lineIndex === lines.length - 1;
-              pos = 0;
+              linePosition++;
+            } else if (linePosition > lines[lineIndex].text.length) {
+              // move to next line
+              // if the line is the last line, current set to true to render cursor
+              buffer[lineIndex].current = lineIndex === lines.length - 1;
+              linePosition = 0;
               lineIndex++;
             } else {
-              currLines[lineIndex].text = lines[lineIndex].text.substring(0, pos);
-              pos++;
+              // set text for the line as all the text before or at the position
+              buffer[lineIndex].text = lines[lineIndex].text.substring(0, linePosition);
+              linePosition++;
             }
-            _context.next = 10;
-            return currLines;
 
-          case 10:
-            _context.next = 13;
+          case 37:
+            _context.next = 39;
+            return buffer;
+
+          case 39:
+            _context.next = 42;
             break;
 
-          case 12:
-            return _context.abrupt('return', currLines);
+          case 41:
+            return _context.abrupt('return', buffer);
 
-          case 13:
-            _context.next = 5;
+          case 42:
+            _context.next = 8;
             break;
 
-          case 15:
+          case 44:
           case 'end':
             return _context.stop();
         }
@@ -989,7 +1108,7 @@
       value: function componentDidMount() {
         var _this2 = this;
 
-        var timer = setInterval(function () {
+        this.timer = setInterval(function () {
           var _content$next = _this2.content.next(),
               value = _content$next.value,
               done = _content$next.done;
@@ -998,9 +1117,14 @@
             lines: value
           });
           if (done) {
-            clearInterval(timer);
+            clearInterval(_this2.timer);
           }
-        }, 150);
+        }, this.props.interval);
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        clearInterval(this.timer);
       }
     }, {
       key: 'render',
@@ -1014,6 +1138,16 @@
     }]);
     return Renderer;
   }(React.Component);
+
+  Renderer.defaultProps = {
+    interval: 100,
+    lines: []
+  };
+
+  Renderer.propTypes = {
+    interval: PropTypes.number,
+    lines: PropTypes.array
+  };
 
   return Renderer;
 
