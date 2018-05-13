@@ -928,12 +928,12 @@ function terminalContent(lines) {
         case 8:
 
           if (!(lineIndex < lines.length)) {
-            _context.next = 41;
+            _context.next = 42;
             break;
           }
 
           if (lines[lineIndex].cmd) {
-            _context.next = 36;
+            _context.next = 37;
             break;
           }
 
@@ -959,12 +959,12 @@ function terminalContent(lines) {
         case 16:
           linePosition = 0;
           lineIndex++;
-          _context.next = 34;
+          _context.next = 35;
           break;
 
         case 20:
           if (!(frameIndex < frames.length)) {
-            _context.next = 32;
+            _context.next = 33;
             break;
           }
 
@@ -987,8 +987,13 @@ function terminalContent(lines) {
 
           // start a timer to render the next frame only after the delay
 
-          if (!(!frameTimer && !isNaN(frames[frameIndex].delay))) {
-            _context.next = 29;
+          if (frameTimer) {
+            _context.next = 31;
+            break;
+          }
+
+          if (isNaN(frames[frameIndex].delay)) {
+            _context.next = 30;
             break;
           }
 
@@ -999,21 +1004,21 @@ function terminalContent(lines) {
           }, frames[frameIndex].delay);
           // yield here to avoid condition where frameIndex goes out of bounds
           // from the timeout
-          _context.next = 27;
+          _context.next = 28;
           return buffer;
 
-        case 27:
-          _context.next = 30;
+        case 28:
+          _context.next = 31;
           break;
-
-        case 29:
-          frameIndex++;
 
         case 30:
-          _context.next = 34;
+          frameIndex++;
+
+        case 31:
+          _context.next = 35;
           break;
 
-        case 32:
+        case 33:
           _lines$lineIndex = lines[lineIndex], repeat = _lines$lineIndex.repeat, repeatCount = _lines$lineIndex.repeatCount;
 
           // if current line should be repeated, reset frame counter and index
@@ -1034,11 +1039,11 @@ function terminalContent(lines) {
             lineIndex++;
           }
 
-        case 34:
-          _context.next = 37;
+        case 35:
+          _context.next = 38;
           break;
 
-        case 36:
+        case 37:
           if (linePosition === 0) {
             buffer.push({
               id: lineIndex,
@@ -1059,22 +1064,22 @@ function terminalContent(lines) {
             linePosition++;
           }
 
-        case 37:
-          _context.next = 39;
+        case 38:
+          _context.next = 40;
           return buffer;
 
-        case 39:
-          _context.next = 42;
+        case 40:
+          _context.next = 43;
           break;
 
-        case 41:
+        case 42:
           return _context.abrupt('return', buffer);
 
-        case 42:
+        case 43:
           _context.next = 8;
           break;
 
-        case 44:
+        case 45:
         case 'end':
           return _context.stop();
       }
