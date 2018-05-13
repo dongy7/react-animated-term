@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "build": "nps build",
-    "test": "jest"
+    "test": "jest",
+    "prettier": "nps prettier"
   },
   "peerDependencies": {
     "react": "^16.3.2",
@@ -20,9 +21,14 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-jest": "^21.15.1",
+    "eslint-plugin-react": "^7.8.1",
     "jest": "^22.4.3",
     "nps": "^5.9.0",
     "nps-utils": "^1.5.0",
+    "prettier": "1.12.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "regenerator-runtime": "^0.11.1",
