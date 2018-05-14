@@ -20,7 +20,7 @@ const termLines = [
     cmd: false
   },
   {
-    text: '',
+    text: '[3/4] 🔗  Linking dependencies...',
     cmd: false,
     frames: [
       {
@@ -39,11 +39,10 @@ const termLines = [
         text: '[################################################] 1000/1000',
         delay: 400
       }
-    ],
-    finalFrame: '[3/4] 🔗  Linking dependencies...'
+    ]
   },
   {
-    text: '',
+    text: '[4/4] 📃  Building fresh packages...',
     cmd: false,
     frames: [
       {
@@ -62,8 +61,7 @@ const termLines = [
         text: '[################################################] 1000/1000',
         delay: 400
       }
-    ],
-    finalFrame: '[4/4] 📃  Building fresh packages...'
+    ]
   },
   {
     text: '✨  Done in 4.91s.',
@@ -81,7 +79,7 @@ const spinnerLines = [
     cmd: true
   },
   {
-    text: '',
+    text: '✔ Loaded app',
     cmd: false,
     repeat: true,
     repeatCount: 2,
@@ -90,8 +88,7 @@ const spinnerLines = [
         text: spinner + ' Loading app',
         delay: 80
       }
-    }),
-    finalFrame: '✔ Loaded app'
+    })
   },
   {
     text: '',
