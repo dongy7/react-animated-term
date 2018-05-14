@@ -275,8 +275,8 @@ var terminalContent = /*#__PURE__*/regeneratorRuntime.mark(function terminalCont
             frameIndex = 0;
           } else {
             // if final frame specified, use it as the text
-            if (lines[lineIndex].finalFrame) {
-              buffer[lineIndex].text = lines[lineIndex].finalFrame;
+            if (lines[lineIndex].text) {
+              buffer[lineIndex].text = lines[lineIndex].text;
             }
 
             // move to next line
