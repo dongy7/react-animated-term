@@ -11,7 +11,7 @@ const external = Object.keys(globals)
 const babelOptions = (prod) =>  {
   let options = {
     babelrc: false,
-    presets: [['env', { modules: false }], 'react'],
+    presets: [['env', { modules: false }], 'stage-0', 'react'],
     plugins: ['external-helpers']
   }
 
