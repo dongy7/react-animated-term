@@ -29,7 +29,13 @@ class Renderer extends React.Component {
   }
 
   render() {
-    return <Terminal>{this.state.lines}</Terminal>
+    return (
+      <Terminal
+        {...this.props}
+      >
+        {this.state.lines}
+      </Terminal>
+    )
   }
 }
 

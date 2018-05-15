@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   windowStyle,
+  whiteWindowStyle,
   windowButtonStyle,
   terminalStyle,
   headerStyle,
@@ -10,6 +11,7 @@ import {
   maximizeButtonStyle,
   bodyStyle,
   consoleStyle,
+  whiteConsoleStyle,
   codeStyle,
   promptStyle,
   cursorStyle
@@ -31,9 +33,23 @@ const renderLines = lines => {
   })
 }
 
-const Terminal = ({ children }) => {
+const getWindowStyle = (white) => {
+  if (white) {
+    return whiteWindowStyle
+  }
+  return {}
+}
+
+const getConsoleStyle = (white) => {
+  if (white) {
+    return whiteConsoleStyle
+  }
+  return {}
+}
+
+const Terminal = ({ children, white }) => {
   return (
-    <div style={windowStyle}>
+    <div style={Object.assign({}, windowStyle, getWindowStyle(white))}>
       <div style={terminalStyle}>
         <div style={headerStyle}>
           <span
@@ -47,7 +63,7 @@ const Terminal = ({ children }) => {
           />
         </div>
         <div style={bodyStyle}>
-          <div style={consoleStyle}>
+          <div style={Object.assign({}, consoleStyle, getConsoleStyle(white))}>
             <div style={codeStyle}>{renderLines(children)}</div>
           </div>
         </div>
@@ -57,7 +73,8 @@ const Terminal = ({ children }) => {
 }
 
 Terminal.propTypes = {
-  children: PropTypes.array
+  children: PropTypes.array,
+  white: PropTypes.bool,
 }
 
 export default Terminal

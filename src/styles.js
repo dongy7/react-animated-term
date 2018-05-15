@@ -1,13 +1,20 @@
 export const windowStyle = {
   width: '100%',
   height: '100%',
-  bprderWidth: '1px',
+  borderWidth: '1px',
   borderStyle: 'solid',
   borderColor: 'rgb(51, 51, 51)',
   borderRadius: '5px',
-  boxShadow: 'rgba(0, 0, 0, 0.1) 1px 2px 5px 0px',
+  boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
   background: 'rgb(0, 0, 0)',
   position: 'relative'
+}
+
+export const whiteWindowStyle = {
+  background: '#fff',
+  borderStyle: 'solid',
+  borderWidth: 0,
+  borderColor: 'transparent'
 }
 
 export const terminalStyle = {
@@ -49,7 +56,7 @@ export const maximizeButtonStyle = {
 export const bodyStyle = {
   width: '100%',
   height: '100%',
-  marginTop: '60px',
+  marginTop: '45px',
   position: 'absolute'
 }
 
@@ -59,6 +66,10 @@ export const consoleStyle = {
   fontFamily: 'Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace',
   lineHeight: '24px',
   margin: '0px 16px'
+}
+
+export const whiteConsoleStyle = {
+  color: '#000'
 }
 
 export const codeStyle = {
