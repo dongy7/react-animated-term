@@ -4,7 +4,7 @@
 
 <p align="center">
 	<br>
-	<img width="400" src="media/demo.gif">
+	<img width="400" src="media/demo-basic.gif">
 	<br>
 	<br>
 </p>
@@ -51,7 +51,7 @@ class App extends React.Component {
 
 <p align="center">
 	<br>
-	<img width="400" src="media/demo-frames.gif">
+	<img width="400" src="media/demo-spinner.gif">
 	<br>
 	<br>
 </p>
