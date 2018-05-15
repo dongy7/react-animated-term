@@ -136,6 +136,20 @@ class App extends React.Component {
 | interval | number | 100 | interval at which terminal output is updated in milliseconds |
 | white | boolean | false | whether to render a white themed terminal |
 
+### Examples
+
+To run the examples, clone and install the dependencies.
+```
+$ git clone https://github.com/dongy7/react-animated-term.git
+$ npm install
+```
+
+Then, run the `start` script and open up `http://localhost:8000`.
+
+```
+$ npm run start
+```
+
 ## Credits
 
 The styling for the terminal was adapted from the [Hyper](https://hyper.is/) terminal.
