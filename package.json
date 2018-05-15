@@ -20,8 +20,9 @@
   "scripts": {
     "build": "nps build",
     "test": "jest",
-    "prettier": "nps prettier",
     "lint": "eslint .",
+    "validate": "npm run lint && npm run test",
+    "prettier": "nps prettier",
     "start": "webpack-dev-server --progress --mode development"
   },
   "peerDependencies": {
