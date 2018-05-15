@@ -14,7 +14,6 @@ const terminalContent = function* (lines) {
   const buffer = []
 
   while (true) {
-    // console.log(`line: ${lineIndex}, pos: ${linePosition}, delay: ${lines[lineIndex].delay}`)
     if (lineIndex < lines.length) {
       // next line is an output line
       if (!lines[lineIndex].cmd) {
@@ -106,6 +105,9 @@ const terminalContent = function* (lines) {
           0,
           linePosition
         )
+
+        // only move to next line position if no delay specified
+        // or timer for current position has expired
         if (cmdTimer == null) {
           const delay = lines[lineIndex].delay
           if (!isNaN(delay)) {
