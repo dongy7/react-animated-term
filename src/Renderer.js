@@ -46,7 +46,7 @@ Renderer.defaultProps = {
 
 Renderer.propTypes = {
   interval: PropTypes.number,
-  lines: PropTypes.array
+  lines: PropTypes.array,
 }
 
 export default Renderer

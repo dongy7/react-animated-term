@@ -13,13 +13,17 @@ export const windowStyle = {
 export const whiteWindowStyle = {
   background: '#fff',
   borderStyle: 'solid',
-  borderWidth: 0,
   borderColor: 'transparent'
 }
 
 export const terminalStyle = {
   width: '100%',
   height: '240px'
+}
+
+export const staticTerminalStyle = {
+  width: '100%',
+  height: '100%'
 }
 
 export const headerStyle = {
@@ -60,12 +64,26 @@ export const bodyStyle = {
   position: 'absolute'
 }
 
+export const staticBodyStyle = {
+  width: '100%',
+  height: '100%',
+  marginTop: '45px',
+}
+
 export const consoleStyle = {
   color: 'rgb(255, 255, 255)',
   fontSize: '12px',
   fontFamily: 'Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace',
   lineHeight: '24px',
   margin: '0px 16px'
+}
+
+export const staticConsoleStyle = {
+  color: 'rgb(255, 255, 255)',
+  fontSize: '12px',
+  fontFamily: 'Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace',
+  lineHeight: '24px',
+  margin: '40px 16px'
 }
 
 export const whiteConsoleStyle = {

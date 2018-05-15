@@ -5,16 +5,19 @@ import {
   whiteWindowStyle,
   windowButtonStyle,
   terminalStyle,
+  staticTerminalStyle,
   headerStyle,
   closeButtonStyle,
   minimizeButtonStyle,
   maximizeButtonStyle,
   bodyStyle,
+  staticBodyStyle,
   consoleStyle,
+  staticConsoleStyle,
   whiteConsoleStyle,
   codeStyle,
   promptStyle,
-  cursorStyle
+  cursorStyle,
 } from './styles'
 
 const cursor = <span style={cursorStyle} />
@@ -34,44 +37,71 @@ const renderLines = lines => {
 }
 
 const getWindowStyle = (white) => {
+  const style = windowStyle
   if (white) {
-    return whiteWindowStyle
+    return Object.assign({}, style, whiteWindowStyle)
   }
-  return {}
+  return style
 }
 
-const getTerminalStyle = (height) => {
-  if (height) {
-    return { height }
+const getTerminalStyle = (code, height) => {
+  const style = code ? staticTerminalStyle : terminalStyle
+  if (!code && height) {
+    return Object.assign({}, style, { height })
   }
-  return {}
+  return style
 }
 
-const getConsoleStyle = (white) => {
-  if (white) {
-    return whiteConsoleStyle
+const getButtonStyle = (type) => {
+  const baseStyle = windowButtonStyle
+  let btnStyle
+  if (type === 'close') {
+    btnStyle = closeButtonStyle
+  } else if (type === 'minimize') {
+    btnStyle = minimizeButtonStyle
+  } else {
+    btnStyle = maximizeButtonStyle
   }
-  return {}
+
+  return Object.assign({}, baseStyle, btnStyle)
 }
 
-const Terminal = ({ children, white, height }) => {
+const getBodyStyle = (code) => {
+  return code ? staticBodyStyle : bodyStyle
+}
+
+const getConsoleStyle = (code, white) => {
+  const baseStyle = code ? staticConsoleStyle : consoleStyle
+  const colorStyle = white ? whiteConsoleStyle : {}
+  return Object.assign({}, baseStyle, colorStyle)
+}
+
+const Terminal = ({ children, white, height, code }) => {
   return (
-    <div style={Object.assign({}, windowStyle, getWindowStyle(white))}>
-      <div style={Object.assign({}, terminalStyle, getTerminalStyle(height))}>
+    <div style={getWindowStyle(white)}>
+      <div style={getTerminalStyle(code, height)}>
         <div style={headerStyle}>
           <span
-            style={Object.assign({}, windowButtonStyle, closeButtonStyle)}
+            style={getButtonStyle('close')}
           />
           <span
-            style={Object.assign({}, windowButtonStyle, minimizeButtonStyle)}
+            style={getButtonStyle('minimize')}
           />
           <span
-            style={Object.assign({}, windowButtonStyle, maximizeButtonStyle)}
+            style={getButtonStyle('maximize')}
           />
         </div>
-        <div style={bodyStyle}>
-          <div style={Object.assign({}, consoleStyle, getConsoleStyle(white))}>
-            <div style={codeStyle}>{renderLines(children)}</div>
+        <div style={getBodyStyle(code)}>
+          <div style={getConsoleStyle(code, white)}>
+            {code ? (
+              <code style={codeStyle}>
+                {children}
+              </code>
+            ) : (
+              <div style={codeStyle}>
+                {renderLines(children)}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -80,9 +110,13 @@ const Terminal = ({ children, white, height }) => {
 }
 
 Terminal.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.string
+  ]),
   white: PropTypes.bool,
   height: PropTypes.number,
+  code : PropTypes.bool
 }
 
 export default Terminal
