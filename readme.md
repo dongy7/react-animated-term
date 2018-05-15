@@ -1,5 +1,7 @@
 # React-Animated-Term
 
+[![Build Status](https://travis-ci.org/dongy7/react-animated-term.svg?branch=master)](https://travis-ci.org/dongy7/react-animated-term)
+
 > Animated terminal component for [React](https://reactjs.org/)
 
 <p align="center">
