@@ -5,14 +5,16 @@ const terminalContent = function* (lines) {
 
   let lineIndex = 0
   let linePosition = 0
+  let cmdTimer = null
   let frameIndex = 0
-  let frameTimer = false
+  let frameTimer = null
   let frameRepeatCounter = 0
 
   // The current contents of the terminal
   const buffer = []
 
   while (true) {
+    // console.log(`line: ${lineIndex}, pos: ${linePosition}, delay: ${lines[lineIndex].delay}`)
     if (lineIndex < lines.length) {
       // next line is an output line
       if (!lines[lineIndex].cmd) {
@@ -49,12 +51,12 @@ const terminalContent = function* (lines) {
           buffer[lineIndex].text = frames[frameIndex].text
 
           // start a timer to render the next frame only after the delay
-          if (!frameTimer) {
+          if (frameTimer == null) {
             if (!isNaN(frames[frameIndex].delay)) {
               frameTimer = setTimeout(() => {
-                frameIndex++
                 clearTimeout(frameTimer)
-                frameTimer = false
+                frameTimer = null
+                frameIndex++
               }, frames[frameIndex].delay)
               // yield here to avoid condition where frameIndex goes out of bounds
               // from the timeout
@@ -83,14 +85,6 @@ const terminalContent = function* (lines) {
             lineIndex++
           }
         }
-      } else if (linePosition === 0) {
-        buffer.push({
-          id: lineIndex,
-          text: '',
-          cmd: lines[lineIndex].cmd,
-          current: true
-        })
-        linePosition++
       } else if (linePosition > lines[lineIndex].text.length) {
         // move to next line
         // if the line is the last line, current set to true to render cursor
@@ -98,12 +92,32 @@ const terminalContent = function* (lines) {
         linePosition = 0
         lineIndex++
       } else {
+        if (linePosition === 0 && !cmdTimer) {
+          buffer.push({
+            id: lineIndex,
+            text: '',
+            cmd: lines[lineIndex].cmd,
+            current: true
+          })
+        }
+
         // set text for the line as all the text before or at the position
         buffer[lineIndex].text = lines[lineIndex].text.substring(
           0,
           linePosition
         )
-        linePosition++
+        if (cmdTimer == null) {
+          const delay = lines[lineIndex].delay
+          if (!isNaN(delay)) {
+            cmdTimer = setTimeout(() => {
+              clearTimeout(cmdTimer)
+              cmdTimer = null
+              linePosition++
+            }, delay)
+          } else {
+            linePosition++
+          }
+        }
       }
       yield buffer
     } else {
