@@ -137,6 +137,7 @@ class App extends React.Component {
 | lines | array| undefined | array of terminal lines |
 | interval | number | 100 | interval at which terminal output is updated in milliseconds |
 | white | boolean | false | whether to render a white themed terminal |
+| height | number | 240 | the height of the terminal |
 
 ### Examples
 

@@ -40,6 +40,13 @@ const getWindowStyle = (white) => {
   return {}
 }
 
+const getTerminalStyle = (height) => {
+  if (height) {
+    return { height }
+  }
+  return {}
+}
+
 const getConsoleStyle = (white) => {
   if (white) {
     return whiteConsoleStyle
@@ -47,10 +54,10 @@ const getConsoleStyle = (white) => {
   return {}
 }
 
-const Terminal = ({ children, white }) => {
+const Terminal = ({ children, white, height }) => {
   return (
     <div style={Object.assign({}, windowStyle, getWindowStyle(white))}>
-      <div style={terminalStyle}>
+      <div style={Object.assign({}, terminalStyle, getTerminalStyle(height))}>
         <div style={headerStyle}>
           <span
             style={Object.assign({}, windowButtonStyle, closeButtonStyle)}
@@ -75,6 +82,7 @@ const Terminal = ({ children, white }) => {
 Terminal.propTypes = {
   children: PropTypes.array,
   white: PropTypes.bool,
+  height: PropTypes.number,
 }
 
 export default Terminal
