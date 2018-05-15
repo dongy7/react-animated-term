@@ -28,11 +28,13 @@ export default [
   },
   {
     text: 'yarn install v1.6.0',
-    cmd: false
+    cmd: false,
+    delay: 80
   },
   {
     text: '[1/4] 🔍  Resolving packages...',
-    cmd: false
+    cmd: false,
+    delay: 80
   },
   {
     text: '[2/4] 🚚  Fetching packages...',
