@@ -22,7 +22,7 @@
     "test": "jest",
     "prettier": "nps prettier",
     "lint": "eslint .",
-    "start": "webpack-dev-server --progress"
+    "start": "webpack-dev-server --progress --mode development"
   },
   "peerDependencies": {
     "react": "^16.3.2",
