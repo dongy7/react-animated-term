@@ -16,13 +16,17 @@ var windowStyle = {
 var whiteWindowStyle = {
   background: '#fff',
   borderStyle: 'solid',
-  borderWidth: 0,
   borderColor: 'transparent'
 };
 
 var terminalStyle = {
   width: '100%',
   height: '240px'
+};
+
+var staticTerminalStyle = {
+  width: '100%',
+  height: '100%'
 };
 
 var headerStyle = {
@@ -63,12 +67,26 @@ var bodyStyle = {
   position: 'absolute'
 };
 
+var staticBodyStyle = {
+  width: '100%',
+  height: '100%',
+  marginTop: '45px'
+};
+
 var consoleStyle = {
   color: 'rgb(255, 255, 255)',
   fontSize: '12px',
   fontFamily: 'Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace',
   lineHeight: '24px',
   margin: '0px 16px'
+};
+
+var staticConsoleStyle = {
+  color: 'rgb(255, 255, 255)',
+  fontSize: '12px',
+  fontFamily: 'Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace',
+  lineHeight: '24px',
+  margin: '40px 16px'
 };
 
 var whiteConsoleStyle = {
@@ -116,49 +134,81 @@ var renderLines = function renderLines(lines) {
 };
 
 var getWindowStyle = function getWindowStyle(white) {
+  var style = windowStyle;
   if (white) {
-    return whiteWindowStyle;
+    return Object.assign({}, style, whiteWindowStyle);
   }
-  return {};
+  return style;
 };
 
-var getConsoleStyle = function getConsoleStyle(white) {
-  if (white) {
-    return whiteConsoleStyle;
+var getTerminalStyle = function getTerminalStyle(code, height) {
+  var style = code ? staticTerminalStyle : terminalStyle;
+  if (!code && height) {
+    return Object.assign({}, style, { height: height });
   }
-  return {};
+  return style;
+};
+
+var getButtonStyle = function getButtonStyle(type) {
+  var baseStyle = windowButtonStyle;
+  var btnStyle = void 0;
+  if (type === 'close') {
+    btnStyle = closeButtonStyle;
+  } else if (type === 'minimize') {
+    btnStyle = minimizeButtonStyle;
+  } else {
+    btnStyle = maximizeButtonStyle;
+  }
+
+  return Object.assign({}, baseStyle, btnStyle);
+};
+
+var getBodyStyle = function getBodyStyle(code) {
+  return code ? staticBodyStyle : bodyStyle;
+};
+
+var getConsoleStyle = function getConsoleStyle(code, white) {
+  var baseStyle = code ? staticConsoleStyle : consoleStyle;
+  var colorStyle = white ? whiteConsoleStyle : {};
+  return Object.assign({}, baseStyle, colorStyle);
 };
 
 var Terminal = function Terminal(_ref) {
   var children = _ref.children,
-      white = _ref.white;
+      white = _ref.white,
+      height = _ref.height,
+      code = _ref.code;
 
   return React.createElement(
     'div',
-    { style: Object.assign({}, windowStyle, getWindowStyle(white)) },
+    { style: getWindowStyle(white) },
     React.createElement(
       'div',
-      { style: terminalStyle },
+      { style: getTerminalStyle(code, height) },
       React.createElement(
         'div',
         { style: headerStyle },
         React.createElement('span', {
-          style: Object.assign({}, windowButtonStyle, closeButtonStyle)
+          style: getButtonStyle('close')
         }),
         React.createElement('span', {
-          style: Object.assign({}, windowButtonStyle, minimizeButtonStyle)
+          style: getButtonStyle('minimize')
         }),
         React.createElement('span', {
-          style: Object.assign({}, windowButtonStyle, maximizeButtonStyle)
+          style: getButtonStyle('maximize')
         })
       ),
       React.createElement(
         'div',
-        { style: bodyStyle },
+        { style: getBodyStyle(code) },
         React.createElement(
           'div',
-          { style: Object.assign({}, consoleStyle, getConsoleStyle(white)) },
-          React.createElement(
+          { style: getConsoleStyle(code, white) },
+          code ? React.createElement(
+            'code',
+            { style: codeStyle },
+            children
+          ) : React.createElement(
             'div',
             { style: codeStyle },
             renderLines(children)
@@ -170,8 +220,10 @@ var Terminal = function Terminal(_ref) {
 };
 
 Terminal.propTypes = {
-  children: PropTypes.array,
-  white: PropTypes.bool
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+  white: PropTypes.bool,
+  height: PropTypes.number,
+  code: PropTypes.bool
 };
 
 var terminalContent = /*#__PURE__*/regeneratorRuntime.mark(function terminalContent(lines) {
@@ -402,6 +454,20 @@ var createClass = function () {
   };
 }();
 
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
 var inherits = function (subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
     throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
@@ -416,6 +482,18 @@ var inherits = function (subClass, superClass) {
     }
   });
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+var objectWithoutProperties = function (obj, keys) {
+  var target = {};
+
+  for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+    target[i] = obj[i];
+  }
+
+  return target;
 };
 
 var possibleConstructorReturn = function (self, call) {
@@ -487,4 +565,20 @@ Renderer.propTypes = {
   lines: PropTypes.array
 };
 
+var Code = function Code(_ref) {
+  var children = _ref.children,
+      rest = objectWithoutProperties(_ref, ['children']);
+
+  return React.createElement(
+    Terminal,
+    _extends({}, rest, { code: true }),
+    children
+  );
+};
+
+Code.propTypes = {
+  children: PropTypes.string
+};
+
 export default Renderer;
+export { Code };
