@@ -59,7 +59,7 @@ const getConsoleStyle = (code, white) => {
 const Terminal = ({ children, white, height, code }) => {
   return (
     <div className={getWindowStyle(white)}>
-      <div className={getTerminalStyle(code, height)}>
+      <div className={getTerminalStyle(code)} style={height ? {height} : null}>
         <div className="Terminal-header">
           <span
             className={getButtonStyle('close')}
