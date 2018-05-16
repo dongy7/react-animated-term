@@ -95,6 +95,7 @@
 .Terminal-code {
   margin: 0;
   font-size: 12px;
+  font-family: Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace;
   line-height: 20px;
   white-space: pre-wrap;
 }
