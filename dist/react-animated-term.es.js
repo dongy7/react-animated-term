@@ -1,122 +1,11 @@
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-var windowStyle = {
-  width: '100%',
-  height: '100%',
-  borderWidth: '1px',
-  borderStyle: 'solid',
-  borderColor: 'rgb(51, 51, 51)',
-  borderRadius: '5px',
-  boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-  background: 'rgb(0, 0, 0)',
-  position: 'relative'
-};
-
-var whiteWindowStyle = {
-  background: '#fff',
-  borderStyle: 'solid',
-  borderColor: 'transparent'
-};
-
-var terminalStyle = {
-  width: '100%',
-  height: '240px'
-};
-
-var staticTerminalStyle = {
-  width: '100%',
-  height: '100%'
-};
-
-var headerStyle = {
-  width: '100%',
-  top: '18px',
-  position: 'absolute'
-};
-
-var windowButtonStyle = {
-  borderRadius: '50%',
-  display: 'inline-block',
-  width: '12px',
-  height: '12px',
-  position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)'
-};
-
-var closeButtonStyle = {
-  backgroundColor: 'rgb(255, 95, 86)',
-  left: '13px'
-};
-
-var minimizeButtonStyle = {
-  backgroundColor: 'rgb(255, 189, 46)',
-  left: '33px'
-};
-
-var maximizeButtonStyle = {
-  backgroundColor: 'rgb(39, 201, 63)',
-  left: '53px'
-};
-
-var bodyStyle = {
-  width: '100%',
-  height: '100%',
-  marginTop: '45px',
-  position: 'absolute'
-};
-
-var staticBodyStyle = {
-  width: '100%',
-  height: '100%',
-  marginTop: '45px'
-};
-
-var consoleStyle = {
-  color: 'rgb(255, 255, 255)',
-  fontSize: '12px',
-  fontFamily: 'Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace',
-  lineHeight: '24px',
-  margin: '0px 16px'
-};
-
-var staticConsoleStyle = {
-  color: 'rgb(255, 255, 255)',
-  fontSize: '12px',
-  fontFamily: 'Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace',
-  lineHeight: '24px',
-  margin: '40px 16px'
-};
-
-var whiteConsoleStyle = {
-  color: '#000'
-};
-
-var codeStyle = {
-  fontSize: '12px',
-  fontFamily: 'Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace',
-  lineHeight: '20px',
-  margin: '0px',
-  whiteSpace: 'pre-wrap'
-};
-
-var promptStyle = {
-  color: 'rgb(204, 204, 204)'
-};
-
-var cursorStyle = {
-  background: 'rgba(248,28,229)',
-  display: 'inline-block',
-  width: '6px',
-  height: '15px',
-  verticalAlign: 'middle'
-};
-
-var cursor = React.createElement('span', { style: cursorStyle });
+var cursor = React.createElement('span', { className: 'Terminal-cursor' });
 var prompt = React.createElement(
   'span',
-  { style: promptStyle },
+  { className: 'Terminal-prompt' },
   '$ '
 );
 
@@ -134,43 +23,41 @@ var renderLines = function renderLines(lines) {
 };
 
 var getWindowStyle = function getWindowStyle(white) {
-  var style = windowStyle;
-  if (white) {
-    return Object.assign({}, style, whiteWindowStyle);
-  }
-  return style;
+  return classNames({
+    'Terminal-window': true,
+    'Terminal-window-white': white
+  });
 };
 
-var getTerminalStyle = function getTerminalStyle(code, height) {
-  var style = code ? staticTerminalStyle : terminalStyle;
-  if (!code && height) {
-    return Object.assign({}, style, { height: height });
-  }
-  return style;
+var getTerminalStyle = function getTerminalStyle(code) {
+  return classNames({
+    'Terminal-term': true,
+    'Terminal-term-code': code
+  });
 };
 
 var getButtonStyle = function getButtonStyle(type) {
-  var baseStyle = windowButtonStyle;
-  var btnStyle = void 0;
-  if (type === 'close') {
-    btnStyle = closeButtonStyle;
-  } else if (type === 'minimize') {
-    btnStyle = minimizeButtonStyle;
-  } else {
-    btnStyle = maximizeButtonStyle;
-  }
-
-  return Object.assign({}, baseStyle, btnStyle);
+  return classNames({
+    'Terminal-btn': true,
+    'Terminal-btn-close': type === 'close',
+    'Terminal-btn-minimize': type === 'minimize',
+    'Terminal-btn-maximize': type === 'maximize'
+  });
 };
 
 var getBodyStyle = function getBodyStyle(code) {
-  return code ? staticBodyStyle : bodyStyle;
+  return classNames({
+    'Terminal-body': true,
+    'Terminal-body-animated': !code
+  });
 };
 
 var getConsoleStyle = function getConsoleStyle(code, white) {
-  var baseStyle = code ? staticConsoleStyle : consoleStyle;
-  var colorStyle = white ? whiteConsoleStyle : {};
-  return Object.assign({}, baseStyle, colorStyle);
+  return classNames({
+    'Terminal-console': true,
+    'Terminal-console-code': code,
+    'Terminal-console-white': white
+  });
 };
 
 var Terminal = function Terminal(_ref) {
@@ -181,36 +68,36 @@ var Terminal = function Terminal(_ref) {
 
   return React.createElement(
     'div',
-    { style: getWindowStyle(white) },
+    { className: getWindowStyle(white) },
     React.createElement(
       'div',
-      { style: getTerminalStyle(code, height) },
+      { className: getTerminalStyle(code, height) },
       React.createElement(
         'div',
-        { style: headerStyle },
+        { className: 'Terminal-header' },
         React.createElement('span', {
-          style: getButtonStyle('close')
+          className: getButtonStyle('close')
         }),
         React.createElement('span', {
-          style: getButtonStyle('minimize')
+          className: getButtonStyle('minimize')
         }),
         React.createElement('span', {
-          style: getButtonStyle('maximize')
+          className: getButtonStyle('maximize')
         })
       ),
       React.createElement(
         'div',
-        { style: getBodyStyle(code) },
+        { className: getBodyStyle(code) },
         React.createElement(
           'div',
-          { style: getConsoleStyle(code, white) },
+          { className: getConsoleStyle(code, white) },
           code ? React.createElement(
             'code',
-            { style: codeStyle },
+            { className: 'Terminal-code' },
             children
           ) : React.createElement(
             'div',
-            { style: codeStyle },
+            { className: 'Terminal-code' },
             renderLines(children)
           )
         )

@@ -1,0 +1,100 @@
+.Terminal-window {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgb(51, 51, 51);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  background: rgb(0, 0, 0);
+}
+
+.Terminal-window-white {
+  background: #fff;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.Terminal-term {
+  width: 100%;
+  height: 240px;
+}
+
+.Terminal-term-code {
+  height: 100%;
+}
+
+.Terminal-header {
+  position: absolute;
+  width: 100%;
+  top: 18px;
+}
+
+.Terminal-body {
+  width: 100%;
+  height: 100%;
+  margin-top: 45px;
+}
+
+.Terminal-body-animated {
+  position: absolute;
+}
+
+.Terminal-console {
+  font-size: 12px;
+  font-family: Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace;
+  line-height: 24px;
+  color: rgb(255, 255, 255);
+  margin: 0px 16px;
+}
+
+.Terminal-console-code {
+  margin: 40px 16px;
+}
+
+.Terminal-console-white {
+  color: #000;
+}
+
+.Terminal-btn {
+  display: inline-block;
+  position: absolute;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  top: 50%;
+  transform: translateY(-50%)
+}
+
+.Terminal-btn-close {
+  background-color: rgb(255, 95, 86);
+  left: 13px
+}
+
+.Terminal-btn-minimize {
+  background-color: rgb(255, 189, 46);
+  left: 33px
+}
+
+.Terminal-btn-maximize {
+  background-color: rgb(39, 201, 63);
+  left: 53px
+}
+
+.Terminal-prompt {
+  color: rgb(204, 204, 204)
+}
+
+.Terminal-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 15px;
+  background: rgb(248, 28, 229);
+  vertical-align: middle;
+}
+
+.Terminal-code {
+  margin: 0;
+  font-size: 12px;
+  line-height: 20px;
+  white-space: pre-wrap;
+}
