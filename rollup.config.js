@@ -3,6 +3,7 @@ import resolve from 'rollup-plugin-node-resolve'
 
 const path = 'dist/react-animated-term'
 const globals = {
+  classnames: 'classNames',
   'react-dom': 'ReactDOM',
   react: 'React',
   'prop-types': 'PropTypes'

@@ -10,10 +10,12 @@ module.exports = {
       default: series(
         rimraf('dist'),
         rimraf('lib'),
-        concurrent.nps('build.rollup', 'build.babel')
+        'mkdir -p dist',
+        concurrent.nps('build.css', 'build.rollup', 'build.babel')
       ),
       rollup: 'rollup --config',
-      babel: 'babel src -d lib'
+      babel: 'babel src -d lib',
+      css: 'cp css/styles.css dist/react-animated-term.css'
     },
     prettier: {
       description: 'run prettier on src files',
