@@ -13,8 +13,15 @@
 
 ## Installation
 
+For use with [webpack](https://webpack.js.org/) or other module bundlers:
 ```
 npm install --save react-animated-term
+```
+
+You can then import `react-animated-term` and its styles.
+```js
+import Terminal from 'react-animated-term'
+import 'react-animated-term/dist/react-animated-term.css'
 ```
 
 ## Usage
