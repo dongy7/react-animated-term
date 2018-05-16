@@ -1,27 +1,9 @@
 import React from 'react'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import {
-  windowStyle,
-  whiteWindowStyle,
-  windowButtonStyle,
-  terminalStyle,
-  staticTerminalStyle,
-  headerStyle,
-  closeButtonStyle,
-  minimizeButtonStyle,
-  maximizeButtonStyle,
-  bodyStyle,
-  staticBodyStyle,
-  consoleStyle,
-  staticConsoleStyle,
-  whiteConsoleStyle,
-  codeStyle,
-  promptStyle,
-  cursorStyle,
-} from './styles'
 
-const cursor = <span style={cursorStyle} />
-const prompt = <span style={promptStyle}>$ </span>
+const cursor = <span className="Terminal-cursor" />
+const prompt = <span className="Terminal-prompt">$ </span>
 
 const renderLines = lines => {
   return lines.map(line => {
@@ -37,68 +19,66 @@ const renderLines = lines => {
 }
 
 const getWindowStyle = (white) => {
-  const style = windowStyle
-  if (white) {
-    return Object.assign({}, style, whiteWindowStyle)
-  }
-  return style
+  return classNames({
+    'Terminal-window': true,
+    'Terminal-window-white': white
+  })
 }
 
-const getTerminalStyle = (code, height) => {
-  const style = code ? staticTerminalStyle : terminalStyle
-  if (!code && height) {
-    return Object.assign({}, style, { height })
-  }
-  return style
+const getTerminalStyle = (code) => {
+  return classNames({
+    'Terminal-term': true,
+    'Terminal-term-code': code
+  })
 }
 
 const getButtonStyle = (type) => {
-  const baseStyle = windowButtonStyle
-  let btnStyle
-  if (type === 'close') {
-    btnStyle = closeButtonStyle
-  } else if (type === 'minimize') {
-    btnStyle = minimizeButtonStyle
-  } else {
-    btnStyle = maximizeButtonStyle
-  }
-
-  return Object.assign({}, baseStyle, btnStyle)
+  return classNames({
+    'Terminal-btn': true,
+    'Terminal-btn-close': type === 'close',
+    'Terminal-btn-minimize': type === 'minimize',
+    'Terminal-btn-maximize': type === 'maximize'
+  })
 }
 
 const getBodyStyle = (code) => {
-  return code ? staticBodyStyle : bodyStyle
+  return classNames({
+    'Terminal-body': true,
+    'Terminal-body-animated': !code
+  })
 }
 
 const getConsoleStyle = (code, white) => {
-  const baseStyle = code ? staticConsoleStyle : consoleStyle
-  const colorStyle = white ? whiteConsoleStyle : {}
-  return Object.assign({}, baseStyle, colorStyle)
+  return classNames({
+    'Terminal-console': true,
+    'Terminal-console-code': code,
+    'Terminal-console-white': white
+  })
 }
 
 const Terminal = ({ children, white, height, code }) => {
   return (
-    <div style={getWindowStyle(white)}>
-      <div style={getTerminalStyle(code, height)}>
-        <div style={headerStyle}>
+    <div className={getWindowStyle(white)}>
+      <div className={getTerminalStyle(code, height)}>
+        <div className="Terminal-header">
           <span
-            style={getButtonStyle('close')}
+            className={getButtonStyle('close')}
           />
           <span
-            style={getButtonStyle('minimize')}
+            className={getButtonStyle('minimize')}
           />
           <span
-            style={getButtonStyle('maximize')}
+            className={getButtonStyle('maximize')}
           />
         </div>
-        <div style={getBodyStyle(code)}>
-          <div style={getConsoleStyle(code, white)}>
+        <div className={getBodyStyle(code)}>
+          <div className={getConsoleStyle(code, white)}>
             {code ? (
-              <code style={codeStyle}>
+              <code className="Terminal-code">
                 {children}
               </code>
             ) : (
-              <div style={codeStyle}>
+              <div className="Terminal-code">
                 {renderLines(children)}
               </div>
             )}
