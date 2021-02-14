@@ -98,6 +98,8 @@ Terminal.propTypes = {
   white: PropTypes.bool,
   height: PropTypes.number,
   code: PropTypes.bool,
+  onReplay: PropTypes.func,
+  completed: PropTypes.bool,
 }
 
 export default Terminal
