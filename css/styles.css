@@ -62,26 +62,26 @@
   width: 12px;
   height: 12px;
   top: 50%;
-  transform: translateY(-50%)
+  transform: translateY(-50%);
 }
 
 .Terminal-btn-close {
   background-color: rgb(255, 95, 86);
-  left: 13px
+  left: 13px;
 }
 
 .Terminal-btn-minimize {
   background-color: rgb(255, 189, 46);
-  left: 33px
+  left: 33px;
 }
 
 .Terminal-btn-maximize {
   background-color: rgb(39, 201, 63);
-  left: 53px
+  left: 53px;
 }
 
 .Terminal-prompt {
-  color: rgb(204, 204, 204)
+  color: rgb(204, 204, 204);
 }
 
 .Terminal-cursor {
@@ -98,4 +98,25 @@
   font-family: Menlo, DejaVu Sans Mono, Consolas, Lucida Console, monospace;
   line-height: 20px;
   white-space: pre-wrap;
+}
+
+.Terminal-control-btn {
+  position: absolute;
+  bottom: 52px;
+  right: 8px;
+  display: inline-block;
+  border-radius: 3px;
+  padding: 5px 10px;
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+  cursor: pointer;
+}
+
+.Terminal-control-btn-white {
+  color: black;
+  border: 2px solid black;
 }

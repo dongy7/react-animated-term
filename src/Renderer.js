@@ -8,7 +8,8 @@ class Renderer extends React.Component {
     super(props)
     this.content = termContent(props.lines)
     this.state = {
-      lines: this.content.next().value
+      lines: this.content.next().value,
+      completed: false,
     }
   }
 
@@ -16,10 +17,13 @@ class Renderer extends React.Component {
     this.timer = setInterval(() => {
       const { value, done } = this.content.next()
       this.setState({
-        lines: value
+        lines: value,
       })
       if (done) {
         clearInterval(this.timer)
+        this.setState({
+          completed: true,
+        })
       }
     }, this.props.interval)
   }
@@ -28,10 +32,32 @@ class Renderer extends React.Component {
     clearInterval(this.timer)
   }
 
+  replay() {
+    const props = this.props
+    this.content = termContent(props.lines)
+    this.setState({
+      completed: false,
+    })
+    this.timer = setInterval(() => {
+      const { value, done } = this.content.next()
+      this.setState({
+        lines: value,
+      })
+      if (done) {
+        clearInterval(this.timer)
+        this.setState({
+          completed: true,
+        })
+      }
+    }, this.props.interval)
+  }
+
   render() {
     return (
       <Terminal
         {...this.props}
+        onReplay={() => this.replay()}
+        completed={this.state.completed}
       >
         {this.state.lines}
       </Terminal>
@@ -41,7 +67,7 @@ class Renderer extends React.Component {
 
 Renderer.defaultProps = {
   interval: 100,
-  lines: []
+  lines: [],
 }
 
 Renderer.propTypes = {
