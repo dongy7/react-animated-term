@@ -64,26 +64,27 @@ var Terminal = function Terminal(_ref) {
   var children = _ref.children,
       white = _ref.white,
       height = _ref.height,
-      code = _ref.code;
+      code = _ref.code,
+      onReplay = _ref.onReplay,
+      completed = _ref.completed;
+
+  var btnClassName = white ? 'Terminal-control-btn Terminal-control-btn-white' : 'Terminal-control-btn';
 
   return React.createElement(
     'div',
     { className: getWindowStyle(white) },
     React.createElement(
       'div',
-      { className: getTerminalStyle(code, height) },
+      {
+        className: getTerminalStyle(code),
+        style: height ? { height: height } : null
+      },
       React.createElement(
         'div',
         { className: 'Terminal-header' },
-        React.createElement('span', {
-          className: getButtonStyle('close')
-        }),
-        React.createElement('span', {
-          className: getButtonStyle('minimize')
-        }),
-        React.createElement('span', {
-          className: getButtonStyle('maximize')
-        })
+        React.createElement('span', { className: getButtonStyle('close') }),
+        React.createElement('span', { className: getButtonStyle('minimize') }),
+        React.createElement('span', { className: getButtonStyle('maximize') })
       ),
       React.createElement(
         'div',
@@ -97,8 +98,19 @@ var Terminal = function Terminal(_ref) {
             children
           ) : React.createElement(
             'div',
-            { className: 'Terminal-code' },
-            renderLines(children)
+            null,
+            React.createElement(
+              'div',
+              { className: 'Terminal-code' },
+              renderLines(children)
+            ),
+            completed ? React.createElement(
+              'a',
+              { className: btnClassName, onClick: function onClick() {
+                  return onReplay();
+                } },
+              'Replay'
+            ) : null
           )
         )
       )
@@ -110,7 +122,9 @@ Terminal.propTypes = {
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   white: PropTypes.bool,
   height: PropTypes.number,
-  code: PropTypes.bool
+  code: PropTypes.bool,
+  onReplay: PropTypes.func,
+  completed: PropTypes.bool
 };
 
 var terminalContent = /*#__PURE__*/regeneratorRuntime.mark(function terminalContent(lines) {
@@ -401,7 +415,8 @@ var Renderer = function (_React$Component) {
 
     _this.content = terminalContent(props.lines);
     _this.state = {
-      lines: _this.content.next().value
+      lines: _this.content.next().value,
+      completed: false
     };
     return _this;
   }
@@ -421,6 +436,9 @@ var Renderer = function (_React$Component) {
         });
         if (done) {
           clearInterval(_this2.timer);
+          _this2.setState({
+            completed: true
+          });
         }
       }, this.props.interval);
     }
@@ -430,11 +448,44 @@ var Renderer = function (_React$Component) {
       clearInterval(this.timer);
     }
   }, {
+    key: 'replay',
+    value: function replay() {
+      var _this3 = this;
+
+      var props = this.props;
+      this.content = terminalContent(props.lines);
+      this.setState({
+        completed: false
+      });
+      this.timer = setInterval(function () {
+        var _content$next2 = _this3.content.next(),
+            value = _content$next2.value,
+            done = _content$next2.done;
+
+        _this3.setState({
+          lines: value
+        });
+        if (done) {
+          clearInterval(_this3.timer);
+          _this3.setState({
+            completed: true
+          });
+        }
+      }, this.props.interval);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this4 = this;
+
       return React.createElement(
         Terminal,
-        this.props,
+        _extends({}, this.props, {
+          onReplay: function onReplay() {
+            return _this4.replay();
+          },
+          completed: this.state.completed
+        }),
         this.state.lines
       );
     }
